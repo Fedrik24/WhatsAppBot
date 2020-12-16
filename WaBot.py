@@ -8,8 +8,15 @@ from selenium.webdriver.support.ui import WebDriverWait
 import socket
 import sys
 
+user = ""
+
 
 class BotTime:
+    global user
+    message_text='text' # message you want to send
+    no_of_message=10 # no. of time you want the message to be send
+    moblie_no_list= user # list of phone number can be of any length
+
     def element_presence(self,by,xpath,time):
         element_present = EC.presence_of_element_located((By.XPATH, xpath))
         WebDriverWait(driver, time).until(element_present)
@@ -22,7 +29,7 @@ class BotTime:
             return True
         except :
             self.is_connected()
-    driver = webdriver.Chrome(executable_path="chromedriver.exe")
+    driver = webdriver.Firefox()
     driver.get("http://web.whatsapp.com")
     sleep(10) #wait time to scan the code in second
 
@@ -34,7 +41,7 @@ class BotTime:
             pass
 
         try:
-            element_presence(self,By.XPATH,'//*[@id="main"]/footer/div[1]/div[2]/div/div[2]',30)
+            element_presence(By.XPATH,'//*[@id="main"]/footer/div[1]/div[2]/div/div[2]',30)
             txt_box=driver.find_element(By.XPATH , '//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')
             global no_of_message
             for x in range(no_of_message):
@@ -45,7 +52,7 @@ class BotTime:
             print("invailid phone no :"+str(phone_no))
     for moblie_no in moblie_no_list:
         try:
-            self,send_whatsapp_msg(moblie_no,message_text)
+            self.send_whatsapp_msg(moblie_no,message_text)
 
         except Exception as e:
             sleep(10)
@@ -56,27 +63,23 @@ class User:
 
     def UserSingleNo(self):
         print("Enter Single Phone Number Here!")
+        global user
         user = input("Enter Phone Number : ")
-        print(62,int(user))
-        BotTime()
+        # print(62,int(user))
+        BotTime.is_connected(self)
 
-    def UserMultipleNo(self,**args):
+    def UserMultipleNo(self):
         print("Enter Multiple Phone Number Here!")
         print("Under Control!")
 
-
-######################## USER COMMAND ##########################
     def User_Choice(self):
         print(""" 1.Single Number \n 2.Multiple Number""")
         c = input("Enter Number ")
-        while c not in ['q','quit']:
+        while c not in ['Null']:
             if c == '1':
                 self.UserSingleNo()
-            elif c == '2':
-                self.UserMultipleNo()
             else:
-                print('Bye~')
-                sys.exit()
+                self.UserMultipleNo()
             break
 
 
