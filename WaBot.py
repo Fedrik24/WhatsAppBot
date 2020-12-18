@@ -7,9 +7,18 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 import socket
 import sys
+import platform
 
 user = ""
+machine = platform.machine()
+if machine == "armv7l":
+    driver = webdriver.Chrome()
+    driver.get("http://web.whatsapp.com")
+else:
+    driver = webdriver.Firefox()
+    driver.get("http://web.whatsapp.com")
 
+input("klik enter jika sudah scan qr")
 
 class BotTime:
     global user
@@ -29,9 +38,6 @@ class BotTime:
             return True
         except :
             self.is_connected()
-    driver = webdriver.Firefox()
-    driver.get("http://web.whatsapp.com")
-    sleep(10) #wait time to scan the code in second
 
     def send_whatsapp_msg(self,phone_no,text):
         driver.get("https://web.whatsapp.com/send?phone={}&source=&data=#".format(phone_no))
@@ -65,8 +71,10 @@ class User:
         print("Enter Single Phone Number Here!")
         global user
         user = input("Enter Phone Number : ")
+        text = input("input Text : ")
         # print(62,int(user))
         BotTime.is_connected(self)
+        BotTime.send_whatsapp_msg(self, user, text)
 
     def UserMultipleNo(self):
         print("Enter Multiple Phone Number Here!")
