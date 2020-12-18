@@ -10,7 +10,10 @@ import sys
 import platform
 
 user = ""
+#check compatibility for driver
 machine = platform.machine()
+
+# support chromium raspberry pi
 if machine == "armv7l":
     driver = webdriver.Chrome()
     driver.get("http://web.whatsapp.com")
